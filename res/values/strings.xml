@@ -2,6 +2,12 @@
 <resources>
 
     <string name="hello">Hello World, TicTacToeActivity!</string>
-    <string name="app_name">Tic-tac-toe</string>
-
+    <string name="app_name">Tic-tac-Toe</string>
+    <string name="about_content">\
+        <p>This is a simple Tic-Tac-Toe game I wrote as my first Android app.</p>
+        
+        </string>
+	<string name="about_name">About Tic-Tac-Toe</string>
+	<string name="winner_name">Winner!</string>
+	<string name="winner_is">The Winner Is: </string>
 </resources>

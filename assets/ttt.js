@@ -1,17 +1,18 @@
 function flip(node) {
     if ( (node.innerHTML != "") || winner()) return false;
-    var xo = document.getElementById("XO");
 
-    node.innerHTML = xo.value;
-    xo.options[ xo.options[0].selected? 1:0 ].selected=true;
+    node.innerHTML = TicTacToe.next_player();
     
+
     var w = winner();
     if (w) {
 	//alert ("The winner is " + w);
 	var pop = document.getElementById('pop');
 	var pop2 = document.getElementById('winner');
 	pop2.innerHTML="The winner is " + w;
-	pop.style.display='block'
+	pop.style.display='block';
+	
+	TicTacToe.win();
     }
     
 }

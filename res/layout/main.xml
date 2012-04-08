@@ -12,6 +12,7 @@
     <WebView
         android:id="@+id/game_board"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="371dp"
+        android:layout_weight="0.06" />
 
 </LinearLayout>
