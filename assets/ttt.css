@@ -1,0 +1,51 @@
+body {background:#304e1a}
+
+table {
+    border-collapse:collapse; 
+    border: 3px outset; 
+    background:black;
+}
+
+td {border: 3px inset}
+/*a & button could share, but I'll keep track of which are needed */
+
+button.sq {
+    font-family:arial; 
+    background:lightgrey;
+    border-style:none;
+}
+
+a {
+    /*
+      width:1in; height:1in; 
+      font-size:0.75in; 
+      line-height:1in; 
+      */
+    display:block; 
+    text-align:center; 
+    text-decoration:none; 
+    font-family:arial; 
+    background:lightgrey;
+}
+
+
+a:link,a:visited {background:lightgrey; color:black}
+a:hover{background:darkgrey}
+
+.player, select {font-size:0.5in}
+.player {border:3px solid}
+
+#pop {
+    position:absolute;
+    width:15em;
+    height:5em;
+    background:white;
+    left:50%;
+    top:50%;
+    margin-left:-7.5em;
+    margin-top:-2.5em;
+    opacity:0.9;
+    border:1px solid;
+    box-shadow: 2px 2px 2px black;
+}
+
