@@ -1,17 +1,14 @@
+var game_winner = null;
+
+
 function flip(node) {
-    if ( (node.innerHTML != "") || winner()) return false;
+    if ( (node.innerHTML != "") || game_winner) return false;
 
     node.innerHTML = TicTacToe.next_player();
     
 
-    var w = winner();
-    if (w) {
-	//alert ("The winner is " + w);
-	var pop = document.getElementById('pop');
-	var pop2 = document.getElementById('winner');
-	pop2.innerHTML="The winner is " + w;
-	pop.style.display='block';
-	
+    game_winner = winner();
+    if (game_winner) {
 	TicTacToe.win();
     }
     
@@ -19,8 +16,7 @@ function flip(node) {
 
 
 function wipe_board() {
-    var pop = document.getElementById('pop');
-    pop.style.display='none';
+    game_winner = null;
 	
     var squares = document.getElementsByClassName('sq');
     for (var i=0; i<squares.length; ++i)

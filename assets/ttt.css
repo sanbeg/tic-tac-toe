@@ -32,20 +32,3 @@ a {
 a:link,a:visited {background:lightgrey; color:black}
 a:hover{background:darkgrey}
 
-.player, select {font-size:0.5in}
-.player {border:3px solid}
-
-#pop {
-    position:absolute;
-    width:15em;
-    height:5em;
-    background:white;
-    left:50%;
-    top:50%;
-    margin-left:-7.5em;
-    margin-top:-2.5em;
-    opacity:0.9;
-    border:1px solid;
-    box-shadow: 2px 2px 2px black;
-}
-
