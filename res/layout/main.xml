@@ -4,15 +4,21 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
     <WebView
         android:id="@+id/game_board"
         android:layout_width="match_parent"
-        android:layout_height="371dp"
-        android:layout_weight="0.06" />
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/next_player"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.1"
+        android:ems="1"
+        android:singleLine="true" >
+
+        <requestFocus />
+    </TextView>
 
 </LinearLayout>

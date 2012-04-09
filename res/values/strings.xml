@@ -9,5 +9,6 @@
         </string>
 	<string name="about_name">About Tic-Tac-Toe</string>
 	<string name="winner_name">Winner!</string>
-	<string name="winner_is">The Winner Is: </string>
+	<string name="winner_is">The Winner Is:</string>
+	<string name="next_is">Next:</string>
 </resources>

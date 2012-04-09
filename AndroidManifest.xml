@@ -18,8 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="About" android:theme="@android:style/Theme.Dialog" android:label="@string/about_name"></activity>
-        <activity android:name="Winner" android:theme="@android:style/Theme.Dialog" android:label="@string/winner_name"></activity>
     </application>
 
 </manifest>

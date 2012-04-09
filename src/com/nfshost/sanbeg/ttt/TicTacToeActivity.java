@@ -4,17 +4,20 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.webkit.WebView;
+import android.widget.TextView;
 import android.view.MenuInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 //import android.widget.*;
 public class TicTacToeActivity extends Activity {
 	WebView mWebView;
-
+	TextView mNextPlayerView;
+	Handler mHandler;
+	
 	static final int DIALOG_ABOUT = 5;
 	static final int DIALOG_WIN_X = 0;
 	static final int DIALOG_WIN_O = 1;
@@ -28,12 +31,25 @@ public class TicTacToeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        // create web view for board
         mWebView = (WebView) findViewById(R.id.game_board);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.loadUrl("file:///android_asset/ttt.html");
         mWebView.addJavascriptInterface(this, "TicTacToe");
 
+        // show next player, and update when we get a message
+        mNextPlayerView = (TextView) findViewById(R.id.next_player);
+        mNextPlayerView.setText(this.getText(R.string.next_is)+" " + smPlayers[0]);
+        mHandler = new Handler() {
+        	@Override
+        	public void handleMessage(Message msg) {
+        		mNextPlayerView.setText(
+    						getText(R.string.next_is)+" " + 
+							smPlayers[(msg.what+1)%smPlayers.length]
+				);
+        	}
+        };
     }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,7 +85,6 @@ public class TicTacToeActivity extends Activity {
 	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
 	    			mWebView.loadUrl("javascript:wipe_board()");
 
 				}
@@ -88,6 +103,8 @@ public class TicTacToeActivity extends Activity {
 	public String next_player() {
 		++mCurrentPlayer;
 		mCurrentPlayer %= smPlayers.length;
-		return smPlayers[ mCurrentPlayer ];
+		mHandler.sendEmptyMessage(mCurrentPlayer);
+		
+		return smPlayers[mCurrentPlayer];
 	}
 }
