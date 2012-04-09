@@ -1,34 +1,28 @@
-body {background:#304e1a}
+body.3d {background:#304e1a}
+body.2d {background: white}
 
 table {
     border-collapse:collapse; 
+}
+
+body.3d table {
     border: 3px outset; 
     background:black;
 }
 
-td {border: 3px inset}
+body.3d td {border: 3px inset}
 /*a & button could share, but I'll keep track of which are needed */
 
 button.sq {
     font-family:arial; 
-    background:lightgrey;
     border-style:none;
 }
 
-a {
-    /*
-      width:1in; height:1in; 
-      font-size:0.75in; 
-      line-height:1in; 
-      */
-    display:block; 
-    text-align:center; 
-    text-decoration:none; 
-    font-family:arial; 
-    background:lightgrey;
-}
+body.3d button.sq {background:lightgrey }
+button.sq { background: white }
 
-
-a:link,a:visited {background:lightgrey; color:black}
-a:hover{background:darkgrey}
-
+/*should be 2d, but body.2d tr td doesn't match? */
+tr:first-child td {border-bottom: 5px solid black }
+tr:last-child td {border-top: 5px solid black }
+tr td:first-child {border-right: 5px solid black }
+tr td:last-child {border-left: 5px solid black }

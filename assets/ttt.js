@@ -1,8 +1,9 @@
 var game_winner = null;
+var open_squares = 9;
 
 
 function flip(node) {
-    if ( (node.innerHTML != "") || game_winner) return false;
+    if ( (node.innerHTML != "") || game_winner ) return false;
 
     node.innerHTML = TicTacToe.next_player();
     
@@ -10,14 +11,18 @@ function flip(node) {
     game_winner = winner();
     if (game_winner) {
 	TicTacToe.win();
+    } else if (--open_squares == 0) {
+	TicTacToe.tie();
     }
+    
     
 }
 
 
 function wipe_board() {
     game_winner = null;
-	
+    open_squares = 9;
+    
     var squares = document.getElementsByClassName('sq');
     for (var i=0; i<squares.length; ++i)
 	squares[i].innerHTML="";

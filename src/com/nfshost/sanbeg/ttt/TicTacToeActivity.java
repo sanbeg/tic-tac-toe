@@ -21,7 +21,8 @@ public class TicTacToeActivity extends Activity {
 	static final int DIALOG_ABOUT = 5;
 	static final int DIALOG_WIN_X = 0;
 	static final int DIALOG_WIN_O = 1;
-
+	static final int DIALOG_TIE = 2;
+	
 	static final String[] smPlayers = {"X", "O"};
 	int mCurrentPlayer = -1;
 	
@@ -80,9 +81,12 @@ public class TicTacToeActivity extends Activity {
 	    	break;
 	    case DIALOG_WIN_X:
     	case DIALOG_WIN_O:
-	    	builder.setMessage( this.getText(R.string.winner_is) + " " + smPlayers[id]);
-	    	builder.setPositiveButton("reset", new Dialog.OnClickListener(){
-	
+    	case DIALOG_TIE:
+    		if (id == DIALOG_TIE)
+        		builder.setMessage( this.getText(R.string.tied_game));
+    		else
+    			builder.setMessage( this.getText(R.string.winner_is) + " " + smPlayers[id]);
+	    	builder.setPositiveButton("reset", new Dialog.OnClickListener(){	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 	    			mWebView.loadUrl("javascript:wipe_board()");
@@ -91,7 +95,7 @@ public class TicTacToeActivity extends Activity {
 	    	});
 	    	
 	    	break;
-
+    		
 	    }
 		return builder.create();
 	};
@@ -99,6 +103,9 @@ public class TicTacToeActivity extends Activity {
 
 	public void win() {
 		showDialog(mCurrentPlayer);
+	}
+	public void tie() {
+		showDialog(DIALOG_TIE);
 	}
 	public String next_player() {
 		++mCurrentPlayer;
