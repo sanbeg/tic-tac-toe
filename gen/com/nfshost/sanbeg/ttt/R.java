@@ -26,13 +26,10 @@ public final class R {
         public static final int mainmenu=0x7f050000;
     }
     public static final class string {
-        public static final int about_content=0x7f040002;
-        public static final int about_name=0x7f040003;
-        public static final int app_name=0x7f040001;
-        public static final int hello=0x7f040000;
-        public static final int next_is=0x7f040007;
-        public static final int tied_game=0x7f040006;
-        public static final int winner_is=0x7f040005;
-        public static final int winner_name=0x7f040004;
+        public static final int about_content=0x7f040001;
+        public static final int app_name=0x7f040000;
+        public static final int next_is=0x7f040004;
+        public static final int tied_game=0x7f040003;
+        public static final int winner_is=0x7f040002;
     }
 }
