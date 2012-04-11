@@ -26,6 +26,15 @@ public class TicTacToeActivity extends Activity {
 	static final String[] smPlayers = {"X", "O"};
 	int mCurrentPlayer = -1;
 	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState){
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putInt("cp",mCurrentPlayer);
+	}
+	
+	private String next_label() {
+		return this.getText(R.string.next_is)+" " + smPlayers[(mCurrentPlayer+1)%smPlayers.length];
+	}
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,16 +48,18 @@ public class TicTacToeActivity extends Activity {
         mWebView.loadUrl("file:///android_asset/ttt.html");
         mWebView.addJavascriptInterface(this, "TicTacToe");
 
+        //recover previous data
+        if (savedInstanceState != null) {
+    		mCurrentPlayer = savedInstanceState.getInt("cp");
+        }
+        
         // show next player, and update when we get a message
         mNextPlayerView = (TextView) findViewById(R.id.next_player);
-        mNextPlayerView.setText(this.getText(R.string.next_is)+" " + smPlayers[0]);
+        mNextPlayerView.setText(next_label());
         mHandler = new Handler() {
         	@Override
         	public void handleMessage(Message msg) {
-        		mNextPlayerView.setText(
-    						getText(R.string.next_is)+" " + 
-							smPlayers[(msg.what+1)%smPlayers.length]
-				);
+        		mNextPlayerView.setText(next_label());
         	}
         };
     }
