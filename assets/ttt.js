@@ -6,7 +6,6 @@ function flip(node) {
     if ( (node.innerHTML != "") || game_winner ) return false;
 
     node.innerHTML = TicTacToe.next_player();
-    
 
     game_winner = winner();
     if (game_winner) {
@@ -14,7 +13,6 @@ function flip(node) {
     } else if (--open_squares == 0) {
 	TicTacToe.tie();
     }
-    
     
 }
 
@@ -28,6 +26,38 @@ function wipe_board() {
 	squares[i].innerHTML="";
 	     
 }
+
+function freeze() 
+{
+    var ice = new Array();
+    var squares = document.getElementsByClassName('sq');
+    for (var i=0; i<squares.length; ++i){
+	var c = squares[i].innerHTML;
+	if (c == "") c = " ";
+	ice.push(c);
+    }
+    
+    TicTacToe.save( ice.join("|") );
+}
+
+function thaw()
+{
+    var msg = TicTacToe.restore();
+    var squares = document.getElementsByClassName('sq');
+
+    if (msg != null) {
+	TicTacToe.jsdebug("msg :" + msg);
+	for (var i=0; i<squares.length; ++i){
+	    var c =  String.fromCharCode(msg.charAt(i*2));
+	    if (c != " ")
+		squares[i].innerHTML = c;
+	}
+	
+    }
+    
+    
+}
+
 
 // can get width with window.innerWidth. document.body.clientWidth, etc
 function fit_board() {
