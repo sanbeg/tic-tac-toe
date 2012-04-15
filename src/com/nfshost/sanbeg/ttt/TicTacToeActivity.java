@@ -21,6 +21,8 @@ public class TicTacToeActivity extends Activity {
 	TextView mNextPlayerView;
 	Handler mHandler, mInstanceHandler=null;
 	
+	static final int NUMBER_OF_SQUARES = 9;
+	
 	static final int DIALOG_ABOUT = 5;
 	static final int DIALOG_WIN_X = 0;
 	static final int DIALOG_WIN_O = 1;
@@ -38,22 +40,6 @@ public class TicTacToeActivity extends Activity {
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putByte("cp",mCurrentPlayer);
 		savedInstanceState.putByteArray("boardState", mBoardState);
-		/*;
-		synchronized (mBoardLock) {
-			Log.i("TTT", "requesting board");
-			mWebView.loadUrl("javascript:freeze()");
-			try {
-				mBoardLock.wait();
-				Log.i("TTT", "Saving board:" + mBoard);
-				savedInstanceState.putString("board", mBoard);
-				//alert(mBoard);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
- 
 	}
 	
 	private String next_label() {
@@ -74,12 +60,11 @@ public class TicTacToeActivity extends Activity {
         //recover previous data
         if (savedInstanceState != null) {
     		mCurrentPlayer = savedInstanceState.getByte("cp");
-    		mBoard = savedInstanceState.getString("board");
     		mBoardState = savedInstanceState.getByteArray("boardState");
     		Log.i("TTT", "create board:" + mBoard);
         } 
         if (mBoardState == null) {
-        	mBoardState = new byte[9];
+        	mBoardState = new byte[NUMBER_OF_SQUARES];
         	for (int i=0; i<mBoardState.length; ++i)
             	mBoardState[i] = -1;   	
         }
@@ -94,11 +79,7 @@ public class TicTacToeActivity extends Activity {
     			mNextPlayerView.setText(next_label());
     		}
         };
-    }
-    
-    @Override
-	public void onStart() {
-    	super.onStart();
+
         mWebView.addJavascriptInterface(this, "TicTacToe");
         mWebView.loadUrl("file:///android_asset/ttt.html");
 
@@ -113,16 +94,21 @@ public class TicTacToeActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 		case R.id.item_reset:
-			mWebView.loadUrl("javascript:wipe_board()");
+			reset_board();
 			break;
 		case R.id.item_about:
-			//startActivity(new Intent(this,About.class));
 			showDialog(DIALOG_ABOUT);
 			break;
 		}
 		return true;
 	}
 	
+	private void reset_board() {
+        for (int i=0; i<mBoardState.length; ++i)
+        	mBoardState[i] = -1;
+		mWebView.loadUrl("javascript:wipe_board()");
+
+	}
 	@Override
 	protected Dialog onCreateDialog(int id) {
 	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -145,8 +131,7 @@ public class TicTacToeActivity extends Activity {
 	    	builder.setPositiveButton("Reset", new Dialog.OnClickListener(){	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-	    			mWebView.loadUrl("javascript:wipe_board()");
-
+					reset_board();
 				}
 				
 	    	});
@@ -187,18 +172,13 @@ public class TicTacToeActivity extends Activity {
 		bundle.putString("msg", msg);
 		showDialog(DIALOG_ALERT, bundle);
 	}
-	public void save(String str){
-		synchronized (mBoardLock) {
-	 		mBoard=str;
-			mBoardLock.notify();			
-		} 
-	}
+
 	public void jsdebug(String msg) {
 		Log.i("TTT-JS", msg);
 	}
 	public String restore() {
 		Log.i("TTT","restore from js:" + mBoard);
-		//return mBoard;
+		
 		String board = "";
 		for (int i=0; i<mBoardState.length; ++i){
 			if (mBoardState[i] < 0)

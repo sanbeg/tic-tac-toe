@@ -27,19 +27,6 @@ function wipe_board() {
 	     
 }
 
-function freeze() 
-{
-    var ice = new Array();
-    var squares = document.getElementsByClassName('sq');
-    for (var i=0; i<squares.length; ++i){
-	var c = squares[i].innerHTML;
-	if (c == "") c = " ";
-	ice.push(c);
-    }
-    
-    TicTacToe.save( ice.join("|") );
-}
-
 function thaw()
 {
     var msg = TicTacToe.restore();
