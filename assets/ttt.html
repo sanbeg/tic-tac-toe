@@ -4,24 +4,24 @@
 <link href="ttt.css" rel="stylesheet" type="text/css">
 <script src="ttt.js"></script>
 </head>
-<body class="2d" onresize='fit_board()' onload='thaw();fit_board()'>
+<body onresize='fit_board()' onload='thaw();fit_board()'>
 
 <table>
 <!-- this.parentNode would get the <td> -->
   <tr>
-    <td><button class='sq r1 c1  d1' onclick="flip(this)" value="" /></td>
-    <td><button class='sq r1 c2 ' onclick="flip(this)" value="" /></td>
-    <td><button class='sq r1 c3  d2' onclick="flip(this)" value="" /></td>
+    <td><button id='s0' class='sq r1 c1  d1' onclick="flip(this)" value="" /></td>
+    <td><button id='s1' class='sq r1 c2 ' onclick="flip(this)" value="" /></td>
+    <td><button id='s2' class='sq r1 c3  d2' onclick="flip(this)" value="" /></td>
   </tr>
   <tr>
-    <td><button class='sq r2 c1 ' onclick="flip(this)" value="" /></td>
-    <td><button class='sq r2 c2  d1 d2' onclick="flip(this)" value="" /></td>
-    <td><button class='sq r2 c3 ' onclick="flip(this)" value="" /></td>
+    <td><button id='s3' class='sq r2 c1 ' onclick="flip(this)" value="" /></td>
+    <td><button id='s4' class='sq r2 c2  d1 d2' onclick="flip(this)" value="" /></td>
+    <td><button id='s5' class='sq r2 c3 ' onclick="flip(this)" value="" /></td>
   </tr>
   <tr>
-    <td><button class='sq r3 c1  d2' onclick="flip(this)" value="" /></td>
-    <td><button class='sq r3 c2 ' onclick="flip(this)" value="" /></td>
-    <td><button class='sq r3 c3  d1' onclick="flip(this)" value="" /></td>
+    <td><button id='s6' class='sq r3 c1  d2' onclick="flip(this)" value="" /></td>
+    <td><button id='s7' class='sq r3 c2 ' onclick="flip(this)" value="" /></td>
+    <td><button id='s8' class='sq r3 c3  d1' onclick="flip(this)" value="" /></td>
   </tr>
 </table>
 

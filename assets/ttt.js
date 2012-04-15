@@ -5,7 +5,7 @@ var open_squares = 9;
 function flip(node) {
     if ( (node.innerHTML != "") || game_winner ) return false;
 
-    node.innerHTML = TicTacToe.next_player();
+    node.innerHTML = TicTacToe.next_player(node.id.charAt(1));
 
     game_winner = winner();
     if (game_winner) {
@@ -46,16 +46,12 @@ function thaw()
     var squares = document.getElementsByClassName('sq');
 
     if (msg != null) {
-	TicTacToe.jsdebug("msg :" + msg);
 	for (var i=0; i<squares.length; ++i){
 	    var c =  String.fromCharCode(msg.charAt(i*2));
 	    if (c != " ")
 		squares[i].innerHTML = c;
 	}
-	
     }
-    
-    
 }
 
 

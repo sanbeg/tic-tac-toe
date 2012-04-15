@@ -1,5 +1,7 @@
 package com.nfshost.sanbeg.ttt;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -26,20 +28,22 @@ public class TicTacToeActivity extends Activity {
 	static final int DIALOG_ALERT = 6;
 	
 	static final String[] smPlayers = {"X", "O"};
-	int mCurrentPlayer = -1;
-	String mBoard = null;
+	byte mCurrentPlayer = -1;
+	byte []  mBoardState;
 	
+	String mBoard = null;
+	AtomicBoolean mBoardLock=new AtomicBoolean();
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState){
 		super.onSaveInstanceState(savedInstanceState);
-		savedInstanceState.putInt("cp",mCurrentPlayer);
-		
-
-		synchronized (this) {
+		savedInstanceState.putByte("cp",mCurrentPlayer);
+		savedInstanceState.putByteArray("boardState", mBoardState);
+		/*;
+		synchronized (mBoardLock) {
 			Log.i("TTT", "requesting board");
 			mWebView.loadUrl("javascript:freeze()");
 			try {
-				this.wait();
+				mBoardLock.wait();
 				Log.i("TTT", "Saving board:" + mBoard);
 				savedInstanceState.putString("board", mBoard);
 				//alert(mBoard);
@@ -48,7 +52,8 @@ public class TicTacToeActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-
+		*/
+ 
 	}
 	
 	private String next_label() {
@@ -60,6 +65,7 @@ public class TicTacToeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        
         // create web view for board
         mWebView = (WebView) findViewById(R.id.game_board);
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -67,14 +73,18 @@ public class TicTacToeActivity extends Activity {
 
         //recover previous data
         if (savedInstanceState != null) {
-    		mCurrentPlayer = savedInstanceState.getInt("cp");
+    		mCurrentPlayer = savedInstanceState.getByte("cp");
     		mBoard = savedInstanceState.getString("board");
+    		mBoardState = savedInstanceState.getByteArray("boardState");
     		Log.i("TTT", "create board:" + mBoard);
+        } 
+        if (mBoardState == null) {
+        	mBoardState = new byte[9];
+        	for (int i=0; i<mBoardState.length; ++i)
+            	mBoardState[i] = -1;   	
         }
  
-        mWebView.addJavascriptInterface(this, "TicTacToe");
-        mWebView.loadUrl("file:///android_asset/ttt.html");
-        
+         
         // show next player, and update when we get a message
     	mNextPlayerView = (TextView) findViewById(R.id.next_player);
         mNextPlayerView.setText(next_label());
@@ -84,6 +94,14 @@ public class TicTacToeActivity extends Activity {
     			mNextPlayerView.setText(next_label());
     		}
         };
+    }
+    
+    @Override
+	public void onStart() {
+    	super.onStart();
+        mWebView.addJavascriptInterface(this, "TicTacToe");
+        mWebView.loadUrl("file:///android_asset/ttt.html");
+
     }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -170,23 +188,33 @@ public class TicTacToeActivity extends Activity {
 		showDialog(DIALOG_ALERT, bundle);
 	}
 	public void save(String str){
-		synchronized (this) {
+		synchronized (mBoardLock) {
 	 		mBoard=str;
-			this.notify();			
-		}
+			mBoardLock.notify();			
+		} 
 	}
 	public void jsdebug(String msg) {
 		Log.i("TTT-JS", msg);
 	}
 	public String restore() {
 		Log.i("TTT","restore from js:" + mBoard);
-		return mBoard;
+		//return mBoard;
+		String board = "";
+		for (int i=0; i<mBoardState.length; ++i){
+			if (mBoardState[i] < 0)
+				board += " ";
+			else
+				board += smPlayers[mBoardState[i]];
+			board += "|";
+		}
+		return board;
 	}
-	public String next_player() {
+	public String next_player(int pos) {
 		++mCurrentPlayer;
 		mCurrentPlayer %= smPlayers.length;
 		mHandler.sendEmptyMessage(0);
 		
+		mBoardState[pos] = mCurrentPlayer;
 		return smPlayers[mCurrentPlayer];
 	}
 }
