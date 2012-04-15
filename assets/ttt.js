@@ -4,7 +4,8 @@ var open_squares = 9;
 
 function flip(node) {
     if ( (node.innerHTML != "") || game_winner ) return false;
-
+    TicTacToe.jsdebug("flip: " + node.id + " = " + node.id.charAt(1));
+    
     node.innerHTML = TicTacToe.next_player(node.id.charAt(1));
 
     game_winner = winner();
@@ -30,11 +31,24 @@ function wipe_board() {
 function thaw()
 {
     var msg = TicTacToe.restore();
+    
     var squares = document.getElementsByClassName('sq');
 
     if (msg != null) {
+	TicTacToe.jsdebug("got board:" + msg);
 	for (var i=0; i<squares.length; ++i){
-	    var c =  String.fromCharCode(msg.charAt(i*2));
+	    var c;
+
+	    if (msg.charCodeAt === undefined) 
+		//in emulator, charAt is charCodeAt?
+		c =  String.fromCharCode(msg.charAt(i*2));
+	    else
+		c = msg.charAt(i*2);
+	    
+	    //TicTacToe.jsdebug("square " + i + " is " + c);
+	    //TicTacToe.jsdebug("square " + i + " char " + msg.charAt(i*2));
+	    //TicTacToe.jsdebug("square " + i + " code " + msg.charCodeAt(i*2));
+	    
 	    if (c != " ")
 		squares[i].innerHTML = c;
 	}

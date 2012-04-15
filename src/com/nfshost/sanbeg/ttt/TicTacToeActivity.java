@@ -61,7 +61,7 @@ public class TicTacToeActivity extends Activity {
         if (savedInstanceState != null) {
     		mCurrentPlayer = savedInstanceState.getByte("cp");
     		mBoardState = savedInstanceState.getByteArray("boardState");
-    		Log.i("TTT", "create board:" + mBoard);
+    		Log.i("TTT", "create board");
         } 
         if (mBoardState == null) {
         	mBoardState = new byte[NUMBER_OF_SQUARES];
@@ -177,7 +177,6 @@ public class TicTacToeActivity extends Activity {
 		Log.i("TTT-JS", msg);
 	}
 	public String restore() {
-		Log.i("TTT","restore from js:" + mBoard);
 		
 		String board = "";
 		for (int i=0; i<mBoardState.length; ++i){
@@ -187,14 +186,18 @@ public class TicTacToeActivity extends Activity {
 				board += smPlayers[mBoardState[i]];
 			board += "|";
 		}
+		Log.i("TTT","restore from js:" + board);
+
 		return board;
 	}
-	public String next_player(int pos) {
+	public String next_player(String s) {
+		int pos = Integer.parseInt(s);
 		++mCurrentPlayer;
 		mCurrentPlayer %= smPlayers.length;
 		mHandler.sendEmptyMessage(0);
 		
 		mBoardState[pos] = mCurrentPlayer;
+		Log.d("TTT", "set square " + pos + "  = " + smPlayers[mCurrentPlayer]);
 		return smPlayers[mCurrentPlayer];
 	}
 }
