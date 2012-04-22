@@ -1,7 +1,5 @@
 package com.nfshost.sanbeg.ttt;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,13 +26,12 @@ public class TicTacToeActivity extends Activity {
 	static final int DIALOG_WIN_O = 1;
 	static final int DIALOG_TIE = 2;
 	static final int DIALOG_ALERT = 6;
+	static final int UI_UPDATE_PLAYER = 7;
 	
 	static final String[] smPlayers = {"X", "O"};
-	byte mCurrentPlayer = -1;
-	byte []  mBoardState;
+	private byte mCurrentPlayer = -1;
+	private byte []  mBoardState;
 	
-	String mBoard = null;
-	AtomicBoolean mBoardLock=new AtomicBoolean();
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState){
 		super.onSaveInstanceState(savedInstanceState);
@@ -75,9 +72,18 @@ public class TicTacToeActivity extends Activity {
         mNextPlayerView.setText(next_label());
         mHandler = new Handler() {
         	@Override
-        	public void handleMessage(Message msg) { 
-    			mNextPlayerView.setText(next_label());
-    		}
+        	public void handleMessage(Message msg) {
+        		switch(msg.what){
+        		case UI_UPDATE_PLAYER:
+        			mNextPlayerView.setText(next_label());
+        			break;
+        		case DIALOG_TIE:
+        		case DIALOG_WIN_X:
+        		case DIALOG_WIN_O:
+        			showDialog(msg.what);
+        			break;
+        		}
+        	}
         };
 
         mWebView.addJavascriptInterface(this, "TicTacToe");
@@ -161,10 +167,10 @@ public class TicTacToeActivity extends Activity {
 			((AlertDialog)dialog).setMessage( bundle.getCharSequence("msg") );
 	}
 	public void win() {
-		showDialog(mCurrentPlayer);
+		mHandler.sendEmptyMessage(mCurrentPlayer);
 	}
 	public void tie() {
-		showDialog(DIALOG_TIE);
+		mHandler.sendEmptyMessage(DIALOG_TIE);
 	}
 	
 	public void alert(String msg) {
@@ -194,7 +200,7 @@ public class TicTacToeActivity extends Activity {
 		int pos = Integer.parseInt(s);
 		++mCurrentPlayer;
 		mCurrentPlayer %= smPlayers.length;
-		mHandler.sendEmptyMessage(0);
+		mHandler.sendEmptyMessage(UI_UPDATE_PLAYER);
 		
 		mBoardState[pos] = mCurrentPlayer;
 		Log.d("TTT", "set square " + pos + "  = " + smPlayers[mCurrentPlayer]);

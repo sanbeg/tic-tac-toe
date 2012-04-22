@@ -10,9 +10,9 @@ function flip(node) {
 
     game_winner = winner();
     if (game_winner) {
-	TicTacToe.win();
+    	TicTacToe.win();
     } else if (--open_squares == 0) {
-	TicTacToe.tie();
+    	TicTacToe.tie();
     }
     
 }
@@ -35,23 +35,16 @@ function thaw()
     var squares = document.getElementsByClassName('sq');
 
     if (msg != null) {
-	TicTacToe.jsdebug("got board:" + msg);
-	for (var i=0; i<squares.length; ++i){
-	    var c;
+    	TicTacToe.jsdebug("got board(" + typeof(msg) + "): " + msg);
 
-	    if (msg.charCodeAt === undefined) 
-		//in emulator, charAt is charCodeAt?
-		c =  String.fromCharCode(msg.charAt(i*2));
-	    else
-		c = msg.charAt(i*2);
-	    
-	    //TicTacToe.jsdebug("square " + i + " is " + c);
-	    //TicTacToe.jsdebug("square " + i + " char " + msg.charAt(i*2));
-	    //TicTacToe.jsdebug("square " + i + " code " + msg.charCodeAt(i*2));
-	    
-	    if (c != " ")
-		squares[i].innerHTML = c;
-	}
+    	for (var i=0; i<squares.length; ++i){
+    		var c = msg.charAt(i*2);
+    		if (typeof c == "number")
+    			c =  String.fromCharCode(c);
+
+    		if (c != " ")
+    			squares[i].innerHTML = c;
+    	}
     }
 }
 
@@ -62,18 +55,18 @@ function fit_board() {
     var view_size = window.innerWidth;
 
     if (view_size > window.innerHeight) {
-	view_size = window.innerHeight;
-	land=true;
+    	view_size = window.innerHeight;
+    	land=true;
     }
 
     var box_size = view_size/4;
     var text_size = box_size * 0.75;
     var squares = document.getElementsByClassName("sq");
     for (var i=0; i<squares.length; ++i) {
-	var s = squares[i].style;
-	s.width = s.height = box_size;
-	//s['line-height'] = s.height;
-	s['font-size'] = text_size;
+    	var s = squares[i].style;
+    	s.width = s.height = box_size;
+    	//s['line-height'] = s.height;
+    	s['font-size'] = text_size;
     }
 
     var board_table = document.getElementsByTagName('table')[0];
@@ -84,24 +77,24 @@ function fit_board() {
     
     var player = document.getElementsByClassName('player')[0].style;
     if (land) {
-	board.float='left';
-	player.width=view_size-window.innerHeight;
+    	board.float='left';
+    	player.width=view_size-window.innerHeight;
     } else {
-	board.float=null;
-	player.width=null;
+    	board.float=null;
+    	player.width=null;
     }
 }
 
 function winner() {
-    for (var r_type in {r:1, c:1, d:1}) {
-	for (var i=1; i<=3; ++i) {
-	    var row = document.getElementsByClassName(r_type+i);
-	    if (row.length == 0) break; //there's no d3
-	    var h0=row[0].innerHTML;
-	    if ((h0) && (h0==row[1].innerHTML) && (h0==row[2].innerHTML))
-	     	return h0;
+	for (var r_type in {r:1, c:1, d:1}) {
+		for (var i=1; i<=3; ++i) {
+			var row = document.getElementsByClassName(r_type+i);
+			if (row.length == 0) break; //there's no d3
+			var h0=row[0].innerHTML;
+			if ((h0) && (h0==row[1].innerHTML) && (h0==row[2].innerHTML))
+				return h0;
+		}
 	}
-    }
-    return null;
+	return null;
 }
-	 	 
+
