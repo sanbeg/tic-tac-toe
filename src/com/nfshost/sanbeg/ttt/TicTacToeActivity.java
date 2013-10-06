@@ -206,4 +206,67 @@ public class TicTacToeActivity extends Activity {
 		Log.d("TTT", "set square " + pos + "  = " + smPlayers[mCurrentPlayer]);
 		return smPlayers[mCurrentPlayer];
 	}
+	public int auto_place() {
+		int rv = -1;
+		for (int i=0; i<mBoardState.length; ++i){
+			if (mBoardState[i]  >= 0)
+				continue;
+			rv = i;
+			int low = i%3;
+			int high = i/3;
+
+			//look for match left/right
+			int left = (low+2)%3+high*3;
+			int right = (low+1)%3+high*3;
+			if (	
+					(mBoardState[left] >= 0) 
+					&&
+					(mBoardState[left] == mBoardState[right])
+				){
+				rv = i;
+				break;
+			}
+			
+			//look for match above/below
+			int below = low + (high+2)%3*3;
+			int above = low + (high+1)%3*3;
+			if (
+					(mBoardState[above] >= 0)
+					&&
+					(mBoardState[above] == mBoardState[below])
+					){
+				rv = i;
+				break;
+			}
+			
+			if (low == high) {
+				int prev = (low+2)%3+(high+2)%3*3;
+				int next = (low+1)%3+(high+1)%3*3;
+				if (
+						(mBoardState[prev] >= 0)
+						&&
+						(mBoardState[prev] == mBoardState[next])
+						){
+					rv = i;
+					break;
+				}
+				
+			}
+			if (low+high == 2){
+				int prev = (low+1)%3+(high+2)%3*3;
+				int next = (low+2)%3+(high+1)%3*3;
+				if (
+						(mBoardState[prev] >= 0)
+						&&
+						(mBoardState[prev] == mBoardState[next])
+						){
+					rv = i;
+					break;
+				}
+			
+			}
+			
+		}
+		return rv;
+	}
 }

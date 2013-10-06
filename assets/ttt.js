@@ -2,19 +2,26 @@ var game_winner = null;
 var open_squares = 9;
 
 
-function flip(node) {
+function flip(node,auto) {
     if ( (node.innerHTML != "") || game_winner ) return false;
     TicTacToe.jsdebug("flip: " + node.id + " = " + node.id.charAt(1));
     
-    node.innerHTML = TicTacToe.next_player(node.id.charAt(1));
+    //send square ID to java so app can update its state,
+    //and get correct player ID back from app.
+    var player = node.innerHTML = TicTacToe.next_player(node.id.charAt(1));
 
     game_winner = winner();
     if (game_winner) {
     	TicTacToe.win();
     } else if (--open_squares == 0) {
     	TicTacToe.tie();
+    } else if ( ! auto ){
+	var put_o = TicTacToe.auto_place();
+	if (put_o >= 0) {
+	    var squares = document.getElementsByClassName('sq');
+	    flip(squares[put_o],true);
+	}
     }
-    
 }
 
 
