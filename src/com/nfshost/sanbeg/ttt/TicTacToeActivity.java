@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.util.Log;
@@ -105,6 +106,8 @@ public class TicTacToeActivity extends Activity {
 		case R.id.item_about:
 			showDialog(DIALOG_ABOUT);
 			break;
+		case R.id.item_settings:
+			startActivity(new Intent(this,Prefs.class));
 		}
 		return true;
 	}
@@ -207,6 +210,9 @@ public class TicTacToeActivity extends Activity {
 		return smPlayers[mCurrentPlayer];
 	}
 	public int auto_place() {
+		if (! Prefs.getSP(getBaseContext()))
+			return -1;
+		
 		int rv = -1;
 		for (int i=0; i<mBoardState.length; ++i){
 			if (mBoardState[i]  >= 0)

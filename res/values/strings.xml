@@ -9,4 +9,8 @@
 	<string name="winner_is">The Winner is:</string>
 	<string name="tied_game">It\'s a tie!</string>
 	<string name="next_is">Next:</string>
+	<string name="sp_pref_title">Single Player Mode</string>
+	<string name="sp_pref_on">Enable single player, to play against your device.</string>
+	<string name="sp_pref_off">Multi-player mode, to take turns with a friend.</string>
+	<string name="settings_title">Tic-Tac-Toe Settings</string>
 </resources>

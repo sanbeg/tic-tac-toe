@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/item_about" android:title="About" android:titleCondensed="About"></item>
     <item android:id="@+id/item_reset" android:titleCondensed="Reset" android:title="Reset the Board" android:alphabeticShortcut="R"></item>
+    <item android:id="@+id/item_settings" android:visible="true" android:title="Settings" android:enabled="true"></item>
     
 
 </menu>
