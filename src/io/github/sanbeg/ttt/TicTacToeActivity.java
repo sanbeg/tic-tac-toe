@@ -30,13 +30,14 @@ public class TicTacToeActivity extends Activity {
 	static final int UI_UPDATE_PLAYER = 7;
 	
 	static final String[] smPlayers = {"X", "O"};
-	private byte mCurrentPlayer = -1;
+	private byte mCurrentPlayer = -1, mHumanPlayer = -1;
 	private byte []  mBoardState;
 	
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState){
 		super.onSaveInstanceState(savedInstanceState);
 		savedInstanceState.putByte("cp",mCurrentPlayer);
+		savedInstanceState.putByte("hp",mHumanPlayer);
 		savedInstanceState.putByteArray("boardState", mBoardState);
 	}
 	
@@ -58,6 +59,7 @@ public class TicTacToeActivity extends Activity {
         //recover previous data
         if (savedInstanceState != null) {
     		mCurrentPlayer = savedInstanceState.getByte("cp");
+    		mHumanPlayer = savedInstanceState.getByte("hp",(byte) -1);
     		mBoardState = savedInstanceState.getByteArray("boardState");
     		Log.i("TTT", "create board");
         } 
@@ -134,12 +136,19 @@ public class TicTacToeActivity extends Activity {
 	    	break;
 	    case DIALOG_WIN_X:
     	case DIALOG_WIN_O:
+    		if (mHumanPlayer >= 0)
+    			if (mHumanPlayer == id)
+    				builder.setMessage("You Win!");
+    			else
+    				builder.setMessage("You lose.");
+    		else
+    			builder.setMessage( this.getText(R.string.winner_is) + " " + smPlayers[id]);
+   		
+			//fall through
     	case DIALOG_TIE:
     		if (id == DIALOG_TIE)
         		builder.setMessage(R.string.tied_game);
-    		else
-    			builder.setMessage( this.getText(R.string.winner_is) + " " + smPlayers[id]);
-    		
+   		
 	    	builder.setPositiveButton("Reset", new Dialog.OnClickListener(){	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -244,8 +253,12 @@ public class TicTacToeActivity extends Activity {
 	 * @return square number (0-8), or -1 to skip move.
 	 */
 	public int auto_place() {
-		if (! Prefs.getSP(getBaseContext()))
+		if (! Prefs.getSP(getBaseContext())) {
+			mHumanPlayer = -1;	
 			return -1;
+		} else {
+			mHumanPlayer = mCurrentPlayer;
+		}
 		
 		int rv = -1;
 		for (int i=0; i<mBoardState.length; ++i){
