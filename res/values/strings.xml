@@ -13,4 +13,6 @@
 	<string name="sp_pref_on">Enable single player, to play against your device.</string>
 	<string name="sp_pref_off">Multi-player mode, to take turns with a friend.</string>
 	<string name="settings_title">Tic-Tac-Toe Settings</string>
+	<string name="you_win">You Win!</string>
+	<string name="you_lose">You Lose.</string>
 </resources>

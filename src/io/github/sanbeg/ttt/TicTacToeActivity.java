@@ -154,10 +154,10 @@ public class TicTacToeActivity extends Activity {
     	    		builder.setMessage(R.string.tied_game);
     	    		break;
     	    	case DIALOG_YOU_WIN:
-    	    		builder.setMessage("You Win!");
+    	    		builder.setMessage(R.string.you_win);
     	    		break;
     	    	case DIALOG_YOU_LOSE:
-    	    		builder.setMessage("You Lose.");
+    	    		builder.setMessage(R.string.you_lose);
     	    		break;
     		}
     		
