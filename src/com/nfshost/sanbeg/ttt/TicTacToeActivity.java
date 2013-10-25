@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-//import android.widget.*;
+
 public class TicTacToeActivity extends Activity {
 	WebView mWebView;
 	TextView mNextPlayerView;
@@ -112,6 +112,9 @@ public class TicTacToeActivity extends Activity {
 		return true;
 	}
 	
+	/**
+	 * Called from the menu to reset the board.
+	 */
 	private void reset_board() {
         for (int i=0; i<mBoardState.length; ++i)
         	mBoardState[i] = -1;
@@ -169,22 +172,43 @@ public class TicTacToeActivity extends Activity {
 		if (id == DIALOG_ALERT)
 			((AlertDialog)dialog).setMessage( bundle.getCharSequence("msg") );
 	}
+	
+	/**
+	 * Called from JavaScript to display the winner dialog
+	 */
 	public void win() {
 		mHandler.sendEmptyMessage(mCurrentPlayer);
 	}
+	/**
+	 * Called from JavaScript to display the tie dialog
+	 */
 	public void tie() {
 		mHandler.sendEmptyMessage(DIALOG_TIE);
 	}
 	
+	/**
+	 * Replacement for the normal JavaScript alert() function
+	 * @param msg
+	 */
 	public void alert(String msg) {
 		Bundle bundle = new Bundle();
 		bundle.putString("msg", msg);
 		showDialog(DIALOG_ALERT, bundle);
 	}
 
+	/**
+	 * Simple debug method to write to the log from JavaScript
+	 * @param msg the message to write
+	 */
 	public void jsdebug(String msg) {
 		Log.i("TTT-JS", msg);
 	}
+	
+	/**
+	 * Serialize the board into a string; called 
+	 * from JavaScript to update the HTML.
+	 * @return String representation of the board
+	 */
 	public String restore() {
 		
 		String board = "";
@@ -199,6 +223,12 @@ public class TicTacToeActivity extends Activity {
 
 		return board;
 	}
+	/**
+	 * Called from JavaScript to register a move with the java app, and
+	 * get the string representing the player for the UI.
+	 * @param s The square where the move was placed (0-8)
+	 * @return The player to assign the move to.
+	 */
 	public String next_player(String s) {
 		int pos = Integer.parseInt(s);
 		++mCurrentPlayer;
@@ -209,6 +239,10 @@ public class TicTacToeActivity extends Activity {
 		Log.d("TTT", "set square " + pos + "  = " + smPlayers[mCurrentPlayer]);
 		return smPlayers[mCurrentPlayer];
 	}
+	/**
+	 * Find a location to place the next move in a single-player game
+	 * @return square number (0-8), or -1 to skip move.
+	 */
 	public int auto_place() {
 		if (! Prefs.getSP(getBaseContext()))
 			return -1;

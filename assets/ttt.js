@@ -43,14 +43,16 @@ function thaw()
 
     if (msg != null) {
     	TicTacToe.jsdebug("got board(" + typeof(msg) + "): " + msg);
-
+	open_squares = 9;
     	for (var i=0; i<squares.length; ++i){
     		var c = msg.charAt(i*2);
-    		if (typeof c == "number")
+    		if (typeof c == "number"){
     			c =  String.fromCharCode(c);
-
-    		if (c != " ")
+		}
+    		if (c != " "){
     			squares[i].innerHTML = c;
+			-- open_squares;
+		}
     	}
     }
 }
