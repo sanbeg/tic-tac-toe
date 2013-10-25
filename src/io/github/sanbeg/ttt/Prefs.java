@@ -1,5 +1,4 @@
 package io.github.sanbeg.ttt;
-import com.nfshost.sanbeg.ttt.R;
 
 import android.content.Context;
 import android.os.Bundle;
