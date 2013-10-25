@@ -22,10 +22,13 @@ public class TicTacToeActivity extends Activity {
 	
 	static final int NUMBER_OF_SQUARES = 9;
 	
-	static final int DIALOG_ABOUT = 5;
 	static final int DIALOG_WIN_X = 0;
 	static final int DIALOG_WIN_O = 1;
 	static final int DIALOG_TIE = 2;
+	static final int DIALOG_YOU_WIN = 3;
+	static final int DIALOG_YOU_LOSE = 4;
+	
+	static final int DIALOG_ABOUT = 5;
 	static final int DIALOG_ALERT = 6;
 	static final int UI_UPDATE_PLAYER = 7;
 	
@@ -83,6 +86,8 @@ public class TicTacToeActivity extends Activity {
         		case DIALOG_TIE:
         		case DIALOG_WIN_X:
         		case DIALOG_WIN_O:
+        		case DIALOG_YOU_WIN:
+        		case DIALOG_YOU_LOSE:
         			showDialog(msg.what);
         			break;
         		}
@@ -136,19 +141,26 @@ public class TicTacToeActivity extends Activity {
 	    	break;
 	    case DIALOG_WIN_X:
     	case DIALOG_WIN_O:
-    		if (mHumanPlayer >= 0)
-    			if (mHumanPlayer == id)
-    				builder.setMessage("You Win!");
-    			else
-    				builder.setMessage("You lose.");
-    		else
-    			builder.setMessage( this.getText(R.string.winner_is) + " " + smPlayers[id]);
-   		
-			//fall through
     	case DIALOG_TIE:
-    		if (id == DIALOG_TIE)
-        		builder.setMessage(R.string.tied_game);
-   		
+    	case DIALOG_YOU_WIN:
+    	case DIALOG_YOU_LOSE:
+    		
+    		switch(id){
+    	    	case DIALOG_WIN_X:
+    	    	case DIALOG_WIN_O:
+    	    		builder.setMessage( this.getText(R.string.winner_is) + " " + smPlayers[id]);
+    	    		break;
+    	    	case DIALOG_TIE:
+    	    		builder.setMessage(R.string.tied_game);
+    	    		break;
+    	    	case DIALOG_YOU_WIN:
+    	    		builder.setMessage("You Win!");
+    	    		break;
+    	    	case DIALOG_YOU_LOSE:
+    	    		builder.setMessage("You Lose.");
+    	    		break;
+    		}
+    		
 	    	builder.setPositiveButton("Reset", new Dialog.OnClickListener(){	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -186,7 +198,14 @@ public class TicTacToeActivity extends Activity {
 	 * Called from JavaScript to display the winner dialog
 	 */
 	public void win() {
-		mHandler.sendEmptyMessage(mCurrentPlayer);
+		if (mHumanPlayer >= 0){
+			if (mHumanPlayer == mCurrentPlayer)
+				mHandler.sendEmptyMessage(DIALOG_YOU_WIN);
+			else
+				mHandler.sendEmptyMessage(DIALOG_YOU_LOSE);
+		}
+		else		
+			mHandler.sendEmptyMessage(mCurrentPlayer);
 	}
 	/**
 	 * Called from JavaScript to display the tie dialog
@@ -258,6 +277,7 @@ public class TicTacToeActivity extends Activity {
 			return -1;
 		} else {
 			mHumanPlayer = mCurrentPlayer;
+			Log.d("TTT", "Human is " + smPlayers[mCurrentPlayer]);
 		}
 		
 		int rv = -1;
