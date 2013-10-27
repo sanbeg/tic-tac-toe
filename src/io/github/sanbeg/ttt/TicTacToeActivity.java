@@ -148,7 +148,9 @@ public class TicTacToeActivity extends Activity {
     		switch(id){
     	    	case DIALOG_WIN_X:
     	    	case DIALOG_WIN_O:
-    	    		builder.setMessage( this.getText(R.string.winner_is) + " " + smPlayers[id]);
+    	    		builder.setMessage( 
+    	    				String.format(this.getString(R.string.winner_is),(smPlayers[id]))
+    	    		);
     	    		break;
     	    	case DIALOG_TIE:
     	    		builder.setMessage(R.string.tied_game);
