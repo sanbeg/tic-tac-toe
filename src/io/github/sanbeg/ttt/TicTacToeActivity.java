@@ -1,7 +1,5 @@
 package io.github.sanbeg.ttt;
 
-import io.github.sanbeg.ttt.Robot;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -166,20 +164,20 @@ public class TicTacToeActivity extends Activity {
     	    		break;
     		}
     		
-	    	builder.setPositiveButton("Reset", new Dialog.OnClickListener(){	
+	    	builder.setPositiveButton(R.string.btn_reset, new Dialog.OnClickListener(){	
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					reset_board();
 				}
 				
 	    	});
-	    	builder.setNeutralButton("Dismiss", new Dialog.OnClickListener(){
+	    	builder.setNeutralButton(R.string.btn_dismiss, new Dialog.OnClickListener(){
 	    		@Override
 	    		public void onClick(DialogInterface dialog, int which){
 	    			dialog.dismiss();
 	    		}
 	    	});
-	    	builder.setNegativeButton("Exit", new Dialog.OnClickListener(){
+	    	builder.setNegativeButton(R.string.btn_exit, new Dialog.OnClickListener(){
 	    		@Override
 	    		public void onClick(DialogInterface dialog, int which){
 	    			finish();
