@@ -21,4 +21,9 @@ public class Prefs extends PreferenceActivity {
 		return PreferenceManager.getDefaultSharedPreferences(context).
 				getBoolean("sp", true);
 	}
+	public static boolean isEasy(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context).
+				getBoolean("easy", false);
+		
+	}
 }

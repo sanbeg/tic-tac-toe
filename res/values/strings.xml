@@ -14,4 +14,7 @@
 	<string name="settings_title">Tic-Tac-Toe Settings</string>
 	<string name="you_win">You Win!</string>
 	<string name="you_lose">You Lose.</string>
+	<string name="sp_pref_difficulty">Difficulty</string>
+	<string name="sp_pref_easy">Easy</string>
+	<string name="sp_pref_normal">Normal</string>
 </resources>

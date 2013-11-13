@@ -285,7 +285,10 @@ public class TicTacToeActivity extends Activity {
 			Log.d("TTT", "Human is " + smPlayers[mCurrentPlayer]);
 		}
 		
-		//return robot.auto_place_easy();
-		return robot.auto_place_normal(mHumanPlayer);
+		if ( Prefs.isEasy(getBaseContext())) {
+			return robot.auto_place_easy();
+		} else {
+			return robot.auto_place_normal(mHumanPlayer);
+		}
 	}
 }
