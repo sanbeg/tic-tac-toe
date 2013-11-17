@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Tic-Tac-Toe</string>
-    <string name="about_content">Open-source tic-tac-toe game by Steve Sanbeg.  This program may be redistributed under the terms of the GPLv3.
+    <string name="about_content">
+        Free open-source Tic-Tac-Toe game by Steve Sanbeg.\n\nThis program may be redistributed under the terms of the GPL version 3 or any later version.
         
         </string>
 	<string name="winner_is">The Winner is: %s.</string>
